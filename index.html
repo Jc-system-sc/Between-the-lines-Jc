@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entre Líneas — Plataforma de Lectura Gamificada</title>
     <link rel="stylesheet" href="css/landing/landing.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
 
@@ -39,6 +41,11 @@
 <script src="js/ui/waves.js"></script>
 <script src="js/ui/includes.js"></script>
 <script src="js/ui/loader.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+</script>
 <script>
 elLoadIncludes().then(() => {
     document.querySelector('.el-theme-toggle-icon').innerHTML = elThemeIconInicial();
