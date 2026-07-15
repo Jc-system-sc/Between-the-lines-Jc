@@ -1,0 +1,38 @@
+{
+  "rules": {
+
+    "usuarios": {
+      ".read": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() === 'admin'",
+      ".indexOn": ["email", "rol"],
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth != null && (auth.uid === $uid || root.child('usuarios').child(auth.uid).child('rol').val() === 'admin')"
+      }
+    },
+
+    "solicitudes": {
+      ".read": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() === 'admin'",
+      "$id": {
+        ".write": "!data.exists() || (auth != null && root.child('usuarios').child(auth.uid).child('rol').val() === 'admin')"
+      }
+    },
+
+    "trivias": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() === 'admin'"
+    },
+
+    "notificaciones": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() === 'admin'"
+    },
+
+    "actividad": {
+      ".indexOn": ["fecha"],
+      ".read": "auth != null && root.child('usuarios').child(auth.uid).child('rol').val() === 'admin'",
+      "$id": {
+        ".write": "auth != null && !data.exists() && newData.child('fecha').exists()"
+      }
+    }
+  }
+}

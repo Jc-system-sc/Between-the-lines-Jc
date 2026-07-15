@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador — Entre Líneas</title>
+    <link rel="stylesheet" href="../../css/dashboard/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+<div id="el-loader">
+    <div class="el-loader-waves">
+        <svg viewBox="0 0 1440 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="1440" height="500" fill="var(--wave-1)"/>
+            <path fill="var(--wave-3)" d="M-80,230 C160,300 380,160 620,225 C860,290 1080,150 1320,215 C1400,238 1460,225 1520,235 L1520,640 L-80,640 Z"/>
+            <path fill="var(--wave-5)" d="M-80,440 C200,500 420,395 680,435 C920,472 1140,405 1380,440 C1430,447 1470,440 1520,445 L1520,640 L-80,640 Z"/>
+        </svg>
+    </div>
+    <div class="el-loader-center">
+        <div class="el-loader-logo">Entre <em>Líneas</em></div>
+        <div class="el-loader-bar"><div class="el-loader-bar-fill"></div></div>
+        <div class="el-loader-tip">Cargando panel...</div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════════════════════ -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <div class="sidebar-logo-mono">EL</div>
+        <div class="sidebar-logo-text">Entre Líneas</div>
+        <div class="sidebar-logo-sub">Administrador</div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <div class="nav-section-label">Principal</div>
+        <button class="nav-item active" onclick="mostrarSeccion('inicio')">
+            <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+            <span class="nav-label">Panel General</span>
+        </button>
+        <button class="nav-item" onclick="mostrarSeccion('estadisticas')">
+            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <span class="nav-label">Estadísticas</span>
+        </button>
+        <button class="nav-item" onclick="mostrarSeccion('ranking')">
+            <svg viewBox="0 0 24 24"><path d="M7.5 21H2V9h5.5v12zm7.25-18h-5.5v18h5.5V3zM22 11h-5.5v10H22V11z"/></svg>
+            <span class="nav-label">Rankings</span>
+        </button>
+
+        <div class="nav-section-label">Gestión</div>
+        <button class="nav-item" onclick="mostrarSeccion('solicitudes')">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span class="nav-label">Solicitudes</span>
+            <span class="nav-badge" id="badge-solicitudes"></span>
+        </button>
+        <button class="nav-item" onclick="mostrarSeccion('usuarios')">
+            <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+            <span class="nav-label">Usuarios</span>
+        </button>
+        <button class="nav-item" onclick="mostrarSeccion('contenidos')">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5z"/></svg>
+            <span class="nav-label">Contenidos (Trivias)</span>
+        </button>
+        <button class="nav-item" onclick="mostrarSeccion('notificaciones')">
+            <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+            <span class="nav-label">Notificaciones</span>
+        </button>
+    </nav>
+
+    <button class="theme-toggle-sidebar" onclick="elToggleTheme()">
+        <span class="el-theme-toggle-icon"></span> <span>Cambiar tema</span>
+    </button>
+
+    <div class="sidebar-user">
+        <div class="sidebar-avatar">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+        </div>
+        <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="admin-name">Administrador</div>
+            <div class="sidebar-user-role">Admin</div>
+        </div>
+    </div>
+</aside>
+
+<!-- ════════════════════════════════════════════════════
+     MAIN
+════════════════════════════════════════════════════ -->
+<div class="main-content">
+    <header class="topbar">
+        <div style="display:flex;align-items:center;gap:1rem;">
+            <button onclick="toggleSidebar()" style="background:none;border:none;cursor:pointer;display:none;" id="hamburger">
+                <svg viewBox="0 0 24 24" width="22" height="22"><path fill="var(--gray-500)" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </button>
+            <span class="topbar-title" id="topbar-title">Panel General</span>
+        </div>
+        <div class="topbar-actions">
+            <button class="btn btn-ghost btn-sm theme-toggle-topbar" onclick="elToggleTheme()">
+                <span class="el-theme-toggle-icon" style="width:14px;height:14px;display:inline-flex;vertical-align:middle;"></span>
+            </button>
+            <button class="btn btn-ghost btn-sm" onclick="cerrarSesion()">Cerrar Sesión</button>
+        </div>
+    </header>
+
+    <main class="page-area">
+
+        <!-- ─────────────── INICIO ─────────────── -->
+        <section id="sec-inicio">
+            <div class="page-header wave-banner">
+                <div id="inicio-waves-container" class="inicio-waves-container"></div>
+                <div class="wave-banner-content">
+                    <h1 class="page-title">Bienvenido, <span id="admin-greeting">Administrador</span></h1>
+                    <p class="page-subtitle">Resumen general de la plataforma Entre Líneas.</p>
+                </div>
+            </div>
+
+            <div class="stats-cards">
+                <div class="stat-card-dash">
+                    <div class="label">Total Usuarios</div>
+                    <div class="value" id="stat-usuarios">—</div>
+                    <div class="delta">Registrados en la plataforma</div>
+                </div>
+                <div class="stat-card-dash">
+                    <div class="label">Cuentas Activas</div>
+                    <div class="value" id="stat-activos">—</div>
+                </div>
+                <div class="stat-card-dash">
+                    <div class="label">Trivias Publicadas</div>
+                    <div class="value" id="stat-trivias">—</div>
+                </div>
+                <div class="stat-card-dash">
+                    <div class="label">Trivias Resueltas</div>
+                    <div class="value" id="stat-completadas">—</div>
+                </div>
+                <div class="stat-card-dash">
+                    <div class="label">Avance Promedio</div>
+                    <div class="value" id="stat-avance-pct">—</div>
+                    <div class="delta">% de usuarios con al menos una trivia resuelta</div>
+                </div>
+            </div>
+
+            <div class="charts-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1.5rem 0;">
+                <div class="chart-card" style="background:var(--white);border-radius:12px;padding:1.1rem 1.2rem;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+                    <h3 style="font-size:0.95rem;margin-bottom:1rem;color:var(--gray-500);">Trivias resueltas por día (últimos 7 días)</h3>
+                    <canvas id="chart-sesiones" height="95"></canvas>
+                </div>
+                <div class="chart-card" style="background:var(--white);border-radius:12px;padding:1.1rem 1.2rem;box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;flex-direction:column;align-items:center;">
+                    <h3 style="font-size:0.95rem;margin-bottom:1rem;color:var(--gray-500);align-self:flex-start;">Cuentas activas vs. desactivadas</h3>
+                    <canvas id="chart-roles" height="95"></canvas>
+                </div>
+            </div>
+
+            <!-- Actividad reciente -->
+            <div class="table-wrapper" style="margin-top:0;">
+                <div class="table-head">
+                    <h3>Actividad reciente</h3>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Trivia</th>
+                            <th>Aciertos</th>
+                            <th>Puntos</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-actividad">
+                        <tr><td colspan="5" style="text-align:center;color:var(--gray-300);padding:2rem;">Cargando actividad...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────── SOLICITUDES ─────────────── -->
+        <section id="sec-solicitudes" class="hidden">
+            <div class="page-header">
+                <h1 class="page-title">Solicitudes</h1>
+                <p class="page-subtitle">Revisa las solicitudes de acceso y crea las cuentas al aprobarlas.</p>
+            </div>
+            <div class="table-wrapper">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Edad</th>
+                            <th>Sexo</th>
+                            <th>Ciudad</th>
+                            <th>WhatsApp</th>
+                            <th>Código de pago</th>
+                            <th>Vía</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-solicitudes">
+                        <tr><td colspan="9" style="text-align:center;color:var(--gray-300);padding:2rem;">Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────── USUARIOS ─────────────── -->
+        <section id="sec-usuarios" class="hidden">
+            <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-end;">
+                <div>
+                    <h1 class="page-title">Usuarios</h1>
+                    <p class="page-subtitle">Gestionar las cuentas registradas en la plataforma.</p>
+                </div>
+                <div style="display:flex;gap:0.6rem;">
+                    <button class="btn btn-ghost btn-sm" onclick="exportarUsuariosCSV()">
+                        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;vertical-align:middle;margin-right:6px;"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                        Exportar CSV
+                    </button>
+                    <button class="btn btn-primary btn-sm" onclick="abrirModalCrearAcceso()">+ Nuevo Usuario</button>
+                </div>
+            </div>
+            <div style="display:flex;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;">
+                <select class="input" style="max-width:180px;" id="filtro-sexo" onchange="cargarUsuarios()">
+                    <option value="">Todos</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+            <div class="table-wrapper">
+                <div class="table-head">
+                    <h3>Lista de usuarios</h3>
+                    <input class="input" style="max-width:220px;height:34px;padding:0 0.75rem;font-size:0.82rem;" placeholder="Buscar..." oninput="filtrarTabla('tabla-usuarios', this.value)">
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Correo</th>
+                            <th>Edad</th>
+                            <th>Sexo</th>
+                            <th>Ciudad</th>
+                            <th>Puntos</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-usuarios">
+                        <tr><td colspan="8" style="text-align:center;color:var(--gray-300);padding:2rem;">Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────── RANKING ─────────────── -->
+        <section id="sec-ranking" class="hidden">
+            <div class="page-header">
+                <h1 class="page-title">Ranking</h1>
+                <p class="page-subtitle">Clasificación general de usuarios por puntos.</p>
+            </div>
+            <div class="table-wrapper">
+                <div id="ranking-lista"></div>
+            </div>
+        </section>
+
+        <!-- ─────────────── CONTENIDOS (TRIVIAS) ─────────────── -->
+        <section id="sec-contenidos" class="hidden">
+            <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-end;">
+                <div>
+                    <h1 class="page-title">Contenidos</h1>
+                    <p class="page-subtitle">Crear y administrar las trivias de lectura de la plataforma.</p>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="abrirModalTrivia()">+ Nueva Trivia</button>
+            </div>
+            <div class="table-wrapper">
+                <div class="table-head">
+                    <h3>Trivias publicadas</h3>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>Preguntas</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-contenidos">
+                        <tr><td colspan="5" style="text-align:center;color:var(--gray-300);padding:2rem;">Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────── NOTIFICACIONES ─────────────── -->
+        <section id="sec-notificaciones" class="hidden">
+            <div class="page-header">
+                <h1 class="page-title">Notificaciones</h1>
+                <p class="page-subtitle">Envía un aviso a todos los usuarios registrados.</p>
+            </div>
+            <div class="notif-form-card">
+                <div class="form-group">
+                    <label>Título</label>
+                    <input type="text" id="notif-titulo" class="input" placeholder="Ej: Nueva trivia disponible">
+                </div>
+                <div class="form-group">
+                    <label>Mensaje</label>
+                    <textarea id="notif-mensaje" class="input" rows="4" placeholder="Escribe el mensaje..."></textarea>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="enviarNotificacion()">
+                    <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;vertical-align:middle;margin-right:6px;"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                    Enviar a todos los usuarios
+                </button>
+            </div>
+            <div class="table-wrapper" style="margin-top:1.5rem;">
+                <div class="table-head"><h3>Notificaciones enviadas</h3></div>
+                <table class="data-table">
+                    <thead><tr><th>Título</th><th>Mensaje</th><th>Fecha</th></tr></thead>
+                    <tbody id="tabla-notificaciones">
+                        <tr><td colspan="3" style="text-align:center;color:var(--gray-300);padding:2rem;">Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ─────────────── ESTADÍSTICAS ─────────────── -->
+        <section id="sec-estadisticas" class="hidden">
+            <div class="page-header">
+                <h1 class="page-title">Estadísticas</h1>
+                <p class="page-subtitle">Análisis de rendimiento y participación.</p>
+            </div>
+            <div class="stats-cards">
+                <div class="stat-card-dash" style="border-top:3px solid var(--tierra-2);">
+                    <div class="label">Trivias Publicadas</div>
+                    <div class="value" id="stat-trivias-total">—</div>
+                </div>
+                <div class="stat-card-dash" style="border-top:3px solid var(--tierra-2);">
+                    <div class="label">Intentos Totales</div>
+                    <div class="value" id="stat-intentos-total">—</div>
+                    <div class="delta">Trivias resueltas por todos los usuarios</div>
+                </div>
+                <div class="stat-card-dash" style="border-top:3px solid var(--tierra-2);">
+                    <div class="label">Promedio de Aciertos</div>
+                    <div class="value" id="stat-aciertos-pct">—</div>
+                </div>
+                <div class="stat-card-dash" style="border-top:3px solid var(--tierra-2);">
+                    <div class="label">Libro Más Jugado</div>
+                    <div class="value" id="stat-libro-top" style="font-size:1.1rem;">—</div>
+                </div>
+            </div>
+            <div class="charts-grid" style="display:grid;grid-template-columns:1.4fr 1fr;gap:1.5rem;margin-top:1.5rem;">
+                <div class="chart-card" style="background:var(--white);border-radius:12px;padding:1.1rem 1.2rem;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+                    <h3 style="font-size:0.95rem;margin-bottom:1rem;color:var(--gray-500);">Actividad de los últimos 14 días</h3>
+                    <canvas id="chart-actividad" height="105"></canvas>
+                </div>
+                <div class="chart-card" style="background:var(--white);border-radius:12px;padding:1.1rem 1.2rem;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+                    <h3 style="font-size:0.95rem;margin-bottom:1rem;color:var(--gray-500);">Trivias más resueltas</h3>
+                    <canvas id="chart-progreso" height="105"></canvas>
+                </div>
+            </div>
+            <p style="color:var(--gray-500);font-size:0.85rem;margin-top:1rem;">
+                Los datos se leen en tiempo real desde Firebase (Realtime Database) y los gráficos se actualizan automáticamente sin recargar la página.
+            </p>
+
+            <h2 style="font-family:var(--font-serif);font-size:1.2rem;margin:2.5rem 0 1rem;color:var(--gray-900);">Demografía de usuarios</h2>
+            <p style="color:var(--gray-500);font-size:0.85rem;margin-bottom:1rem;">
+                Calculado automáticamente a partir de los datos que cada usuario completó en su formulario de solicitud.
+            </p>
+            <div class="charts-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+                <div class="chart-card" style="background:var(--white);border-radius:12px;padding:1.1rem 1.2rem;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+                    <h3 style="font-size:0.95rem;margin-bottom:1rem;color:var(--gray-500);">Distribución por edad</h3>
+                    <canvas id="chart-edad" height="115"></canvas>
+                </div>
+                <div class="chart-card" style="background:var(--white);border-radius:12px;padding:1.1rem 1.2rem;box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;flex-direction:column;align-items:center;">
+                    <h3 style="font-size:0.95rem;margin-bottom:1rem;color:var(--gray-500);align-self:flex-start;">Distribución por sexo</h3>
+                    <canvas id="chart-sexo" height="115"></canvas>
+                </div>
+            </div>
+            <div class="charts-grid" style="display:grid;grid-template-columns:1fr;gap:1.5rem;margin-top:1.5rem;">
+                <div class="chart-card" style="background:var(--white);border-radius:12px;padding:1.1rem 1.2rem;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+                    <h3 style="font-size:0.95rem;margin-bottom:1rem;color:var(--gray-500);">Usuarios por ciudad</h3>
+                    <canvas id="chart-ciudad" height="95"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     MODAL USUARIO
+════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-usuario">
+    <div class="modal">
+        <div class="modal-head">
+            <h2 id="modal-crear-acceso-titulo">Nuevo Usuario</h2>
+            <button class="modal-close" onclick="cerrarModal('modal-usuario')">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" id="usr-nombre" class="input" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                    <label>Apellido</label>
+                    <input type="text" id="usr-apellido" class="input" placeholder="Apellido">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Edad</label>
+                    <input type="number" id="usr-edad" class="input" placeholder="Ej: 9" min="1" max="120">
+                </div>
+                <div class="form-group">
+                    <label>Sexo</label>
+                    <select id="usr-sexo" class="input">
+                        <option value="">Seleccionar</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Ciudad</label>
+                <input type="text" id="usr-ciudad" class="input" placeholder="Ciudad">
+            </div>
+            <div class="form-group">
+                <label>Número de WhatsApp (para enviarle las credenciales)</label>
+                <input type="text" id="usr-whatsapp" class="input" placeholder="Ej: 987654321">
+            </div>
+
+            <hr style="border:none;border-top:1px solid var(--gray-100);margin:1.25rem 0;">
+
+            <div class="form-group">
+                <label>Correo de acceso (el que usará para iniciar sesión)</label>
+                <input type="email" id="usr-email" class="input" placeholder="correo@ejemplo.com">
+            </div>
+            <div class="form-group">
+                <label>Contraseña inicial</label>
+                <div style="display:flex;gap:0.5rem;">
+                    <input type="text" id="usr-password" class="input" placeholder="Mínimo 6 caracteres" style="font-family:var(--font-mono, monospace);">
+                    <button type="button" class="btn btn-ghost btn-sm" onclick="generarPasswordAleatoria()" style="white-space:nowrap;">Generar</button>
+                </div>
+            </div>
+            <p class="form-hint">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                Esta contraseña se muestra una sola vez al crearla. Después no queda visible en ningún lado — solo puede reemplazarse por una nueva (nunca consultarse).
+            </p>
+        </div>
+        <div class="modal-foot">
+            <button class="btn btn-ghost btn-sm" onclick="cerrarModal('modal-usuario')">Cancelar</button>
+            <button class="btn btn-primary btn-sm" onclick="guardarUsuario()">Crear acceso</button>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     MODAL CREDENCIALES CREADAS
+     Única pantalla donde la contraseña es visible. No se vuelve a poder
+     consultar después de cerrar este modal (Firebase no lo permite).
+════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-credenciales">
+    <div class="modal">
+        <div class="modal-head">
+            <h2>Acceso creado</h2>
+            <button class="modal-close" onclick="cerrarModal('modal-credenciales')">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p class="form-hint" style="margin-bottom:1rem;">
+                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                Copia o envía estas credenciales ahora — la contraseña no se volverá a mostrar.
+            </p>
+            <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" id="cred-nombre" class="input" readonly>
+            </div>
+            <div class="form-group">
+                <label>Correo</label>
+                <input type="text" id="cred-email" class="input" readonly>
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="text" id="cred-password" class="input" readonly style="font-family:var(--font-mono, monospace); letter-spacing:0.05em;">
+            </div>
+        </div>
+        <div class="modal-foot">
+            <button class="btn btn-ghost btn-sm" onclick="copiarCredenciales()">
+                <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                <span class="nav-label">Copiar</span>
+            </button>
+            <button class="btn btn-primary btn-sm" id="btn-enviar-whatsapp" onclick="enviarPorWhatsapp()">
+                <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.7.8-.8 1-.1.1-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.4.1-.5.1-.1.2-.3.4-.4.1-.1.2-.2.2-.4.1-.1 0-.3 0-.4 0-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.5-.3z"/></svg>
+                <span class="nav-label">Enviar por WhatsApp</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+
+<!-- ════════════════════════════════════════════════════
+     MODAL NUEVA TRIVIA
+     El admin arma aquí el contenido: código del libro, autor,
+     enlace al PDF de lectura y las preguntas de opción múltiple.
+════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-trivia">
+    <div class="modal modal-lg">
+        <div class="modal-head">
+            <h2>Nueva Trivia</h2>
+            <button class="modal-close" onclick="cerrarModal('modal-trivia')">
+                <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Código (el niño lo digita para desbloquear)</label>
+                    <input type="text" id="triv-codigo" class="input" placeholder="Ej: PRINCIPITO1" style="text-transform:uppercase;">
+                </div>
+                <div class="form-group">
+                    <label>Título del libro</label>
+                    <input type="text" id="triv-titulo" class="input" placeholder="Ej: El Principito">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Autor</label>
+                    <input type="text" id="triv-autor" class="input" placeholder="Ej: Antoine de Saint-Exupéry">
+                </div>
+                <div class="form-group">
+                    <label>Enlace al PDF de lectura</label>
+                    <input type="text" id="triv-pdf" class="input" placeholder="https://...">
+                </div>
+            </div>
+
+            <hr style="border:none;border-top:1px solid var(--gray-100, #eee);margin:1.25rem 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+                <h3 style="font-size:0.95rem;">Preguntas</h3>
+                <button type="button" class="btn btn-ghost btn-sm" onclick="agregarPreguntaTrivia()">+ Agregar pregunta</button>
+            </div>
+            <div id="lista-preguntas-trivia"></div>
+        </div>
+        <div class="modal-foot">
+            <button class="btn btn-ghost btn-sm" onclick="cerrarModal('modal-trivia')">Cancelar</button>
+            <button class="btn btn-primary btn-sm" onclick="guardarTrivia()">Guardar Trivia</button>
+        </div>
+    </div>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="../../firebase/config/firebase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="../../js/ui/notify.js"></script>
+<script src="../../js/ui/theme.js"></script>
+<script src="../../js/ui/waves.js"></script>
+<script src="../../js/ui/loader.js"></script>
+<script src="../../js/dashboard/admin.js"></script>
+
+</body>
+</html>

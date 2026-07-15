@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iniciar Sesión — Entre Líneas</title>
+<link rel="stylesheet" href="../../css/variables.css">
+<style>
+    body {
+        min-height: 100vh;
+        background: var(--wave-1);
+        font-family: var(--font-sans);
+        position: relative;
+        overflow-x: hidden;
+    }
+    .login-waves-container { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+    .login-waves-container .el-waves-wrap { height: 100%; }
+    .login-waves-container .el-waves-wrap { position: absolute; inset: 0; }
+
+    .topbar { position:relative; z-index:2; display:flex; justify-content:space-between; align-items:center; padding: 1.5rem 3rem; }
+    .back-link {
+        color:#fff; text-decoration:none; font-size:0.85rem; font-weight:600;
+        display:flex; align-items:center; gap:0.4rem; letter-spacing:0.03em; text-transform:uppercase;
+        opacity:0.9;
+    }
+    .back-link:hover { opacity:1; }
+    .back-link svg { width:16px; height:16px; fill:currentColor; }
+
+    .page-layout {
+        position:relative; z-index:2;
+        display:flex; flex-direction:column; align-items:center;
+        max-width: 560px; margin: 0 auto;
+        padding: 1rem 1.5rem 4rem;
+        min-height: calc(100vh - 90px);
+        justify-content: center;
+    }
+
+    .login-brand-center { text-align:center; margin-bottom: 2rem; }
+    .showcase-logo { font-family:var(--font-serif); font-size:2.4rem; color:#fff; }
+    .showcase-logo em { font-style:italic; font-weight:400; }
+    .showcase-tag { display:block; color:rgba(255,255,255,0.85); font-size:0.82rem; letter-spacing:0.08em; text-transform:uppercase; margin-top:0.5rem; }
+
+    /* ---------- PANEL DE ACCESO ---------- */
+    .login-panel { display:flex; flex-direction:column; gap:1.25rem; width: 100%; }
+
+    .card {
+        background: var(--white); border-radius: 18px; padding: 2rem 2.25rem;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    }
+    .card h2 { font-family:var(--font-serif); font-size:1.5rem; color: var(--gray-900, #222); margin-bottom:0.35rem; }
+    .card h3 { font-family:var(--font-serif); font-size:1.15rem; color: var(--gray-900, #222); margin-bottom:0.35rem; }
+    .card > p { color: var(--gray-500); font-size:0.85rem; margin-bottom:1.25rem; }
+
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display:block; font-size:0.75rem; font-weight:600; color:var(--gray-700,#555); margin-bottom:0.35rem; text-transform:uppercase; letter-spacing:0.03em; }
+    .input, select.input, textarea.input {
+        width:100%; padding:0.7rem 0.9rem; border-radius:8px; border:1px solid var(--gray-200,#ddd);
+        font-family:var(--font-sans); font-size:0.88rem; background: var(--gray-50, #fafafa); color: var(--gray-900,#222);
+        outline:none; transition:border-color var(--ease);
+    }
+    .input:focus { border-color: var(--tierra-2); }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
+
+    .btn-login, .btn-primary-full {
+        width:100%; padding:0.85rem; border:none; border-radius:8px;
+        background: var(--tierra-2); color:#fff; font-weight:600; font-size:0.9rem;
+        cursor:pointer; transition: background var(--ease), transform var(--ease);
+        font-family: var(--font-sans);
+    }
+    .btn-login:hover, .btn-primary-full:hover { background: var(--tierra-1); transform: translateY(-1px); }
+    .btn-login:disabled, .btn-primary-full:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
+
+    .btn-google {
+        width:100%; display:flex; align-items:center; justify-content:center; gap:0.6rem;
+        padding:0.8rem; background:var(--white); color:var(--gray-700,#333);
+        border:1px solid var(--gray-200,#ddd); border-radius:8px;
+        font-family:var(--font-sans); font-size:0.85rem; font-weight:600; cursor:pointer;
+        transition: background var(--ease), transform var(--ease);
+    }
+    .btn-google:hover { background:var(--crema); transform: translateY(-1px); }
+    .btn-google:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
+
+    .error-msg { color:var(--error); font-size:0.8rem; margin-top:0.6rem; min-height:1em; }
+
+    .solicitud-tabs { display:flex; gap:0.4rem; margin-bottom:1.25rem; background:var(--crema); padding:0.3rem; border-radius:10px; }
+    .solicitud-tab {
+        flex:1; padding:0.55rem; border:none; border-radius:8px; background:transparent;
+        font-size:0.78rem; font-weight:600; color:var(--gray-500); cursor:pointer; font-family:var(--font-sans);
+        transition: background var(--ease), color var(--ease);
+    }
+    .solicitud-tab.active { background:var(--white); color:var(--tierra-2); box-shadow:0 2px 6px rgba(0,0,0,0.08); }
+
+    .login-note { text-align:center; color:rgba(255,255,255,0.85); font-size:0.78rem; margin-top:0.5rem; }
+
+    @media (max-width: 980px) {
+        .topbar { padding: 1.25rem 1.5rem; }
+    }
+</style>
+</head>
+<body>
+
+<div id="el-loader">
+    <div class="el-loader-waves">
+        <svg viewBox="0 0 1440 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="1440" height="500" fill="var(--wave-1)"/>
+            <path fill="var(--wave-3)" d="M-80,230 C160,300 380,160 620,225 C860,290 1080,150 1320,215 C1400,238 1460,225 1520,235 L1520,640 L-80,640 Z"/>
+            <path fill="var(--wave-5)" d="M-80,440 C200,500 420,395 680,435 C920,472 1140,405 1380,440 C1430,447 1470,440 1520,445 L1520,640 L-80,640 Z"/>
+        </svg>
+    </div>
+    <div class="el-loader-center">
+        <div class="el-loader-logo">Entre <em>Líneas</em></div>
+        <div class="el-loader-bar"><div class="el-loader-bar-fill"></div></div>
+        <div class="el-loader-tip">Cargando...</div>
+    </div>
+</div>
+
+<div id="login-waves-container" class="login-waves-container"></div>
+
+<header class="topbar">
+    <a href="../../index.html" class="back-link">
+        <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+        Volver
+    </a>
+</header>
+
+<div class="page-layout">
+
+    <div class="login-brand-center">
+        <span class="showcase-logo">Entre <em>Líneas</em></span>
+        <span class="showcase-tag">Plataforma de Lectura Gamificada</span>
+    </div>
+
+    <!-- ═══ PANEL DE ACCESO ═══ -->
+    <section class="login-panel">
+
+        <!-- Login normal (correo + contraseña asignada por el admin) -->
+        <div class="card">
+            <h2>Iniciar sesión</h2>
+            <p>Ingresa con el correo y la contraseña que te asignó el administrador.</p>
+            <div class="form-group">
+                <label>Correo electrónico</label>
+                <input type="email" id="login-email" class="input" placeholder="correo@ejemplo.com" onkeydown="if(event.key==='Enter') intentarLogin()">
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <input type="password" id="login-pass" class="input" placeholder="••••••••" onkeydown="if(event.key==='Enter') intentarLogin()">
+            </div>
+            <button class="btn-login" id="btn-login" onclick="intentarLogin()">Ingresar</button>
+            <p class="error-msg" id="error-msg"></p>
+        </div>
+
+        <!-- Solicitud de acceso -->
+        <div class="card">
+            <h3>¿No tienes cuenta?</h3>
+            <p>Solicita acceso — el administrador revisará tu solicitud y te enviará tus credenciales.</p>
+
+            <div class="solicitud-tabs">
+                <button class="solicitud-tab active" id="tab-btn-google" onclick="cambiarTabSolicitud('google')">Con Google</button>
+                <button class="solicitud-tab" id="tab-btn-formulario" onclick="cambiarTabSolicitud('formulario')">Con formulario</button>
+            </div>
+
+            <!-- Vía Google -->
+            <div id="tab-google">
+                <div id="google-paso-1">
+                    <button class="btn-google" id="btn-google-solicitud" onclick="continuarConGoogle()">
+                        <svg viewBox="0 0 48 48" style="width:18px;height:18px;">
+                            <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
+                            <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6 29.5 4 24 4c-7.5 0-14 4.2-17.7 10.4z"/>
+                            <path fill="#4CAF50" d="M24 44c5.4 0 10.3-1.8 14-4.9l-6.5-5.5C29.5 35.4 26.9 36 24 36c-5.3 0-9.7-3.1-11.3-7.5l-6.6 5.1C9.9 39.7 16.4 44 24 44z"/>
+                            <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.6h0l6.5 5.5C37.4 39.9 44 34.9 44 24c0-1.3-.1-2.7-.4-3.5z"/>
+                        </svg>
+                        Continuar con Google
+                    </button>
+                </div>
+                <div id="google-paso-2" class="hidden">
+                    <p style="font-size:0.8rem;color:var(--gray-500);margin-bottom:0.75rem;">Cuenta verificada: <strong id="google-correo-verificado"></strong></p>
+                    <div class="form-row">
+                        <div class="form-group"><label>Edad</label><input type="number" id="g-edad" class="input" min="1" max="120"></div>
+                        <div class="form-group">
+                            <label>Sexo</label>
+                            <select id="g-sexo" class="input">
+                                <option value="">Seleccionar</option>
+                                <option>Femenino</option><option>Masculino</option><option>Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Ciudad</label>
+                        <select id="g-ciudad" class="input" onchange="mostrarCiudadOtra('g')">
+                            <option value="">Seleccionar</option>
+                            <option>Lima</option><option>Arequipa</option><option>Trujillo</option>
+                            <option>Chiclayo</option><option>Piura</option><option>Cusco</option>
+                            <option value="__otra__">Otra ciudad</option>
+                        </select>
+                        <input type="text" id="g-ciudad-otra" class="input hidden" placeholder="Escribe tu ciudad" style="margin-top:0.5rem;">
+                    </div>
+                    <div class="form-group"><label>Número de WhatsApp</label><input type="text" id="g-whatsapp" class="input" placeholder="Ej: 987654321"></div>
+                    <div class="form-group"><label>Código de pago (de tu boleta o comprobante)</label><input type="text" id="g-codigo-pago" class="input" placeholder="Ej: OP-00012345"></div>
+                    <button class="btn-primary-full" onclick="enviarSolicitudGoogle()">Enviar solicitud</button>
+                </div>
+            </div>
+
+            <!-- Vía formulario manual -->
+            <div id="tab-formulario" class="hidden">
+                <div class="form-row">
+                    <div class="form-group"><label>Nombre</label><input type="text" id="f-nombre" class="input"></div>
+                    <div class="form-group"><label>Apellido</label><input type="text" id="f-apellido" class="input"></div>
+                </div>
+                <div class="form-group"><label>Correo electrónico</label><input type="email" id="f-correo" class="input" placeholder="correo@ejemplo.com"></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Edad</label><input type="number" id="f-edad" class="input" min="1" max="120"></div>
+                    <div class="form-group">
+                        <label>Sexo</label>
+                        <select id="f-sexo" class="input">
+                            <option value="">Seleccionar</option>
+                            <option>Femenino</option><option>Masculino</option><option>Otro</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Ciudad</label>
+                    <select id="f-ciudad" class="input" onchange="mostrarCiudadOtra('f')">
+                        <option value="">Seleccionar</option>
+                        <option>Lima</option><option>Arequipa</option><option>Trujillo</option>
+                        <option>Chiclayo</option><option>Piura</option><option>Cusco</option>
+                        <option value="__otra__">Otra ciudad</option>
+                    </select>
+                    <input type="text" id="f-ciudad-otra" class="input hidden" placeholder="Escribe tu ciudad" style="margin-top:0.5rem;">
+                </div>
+                <div class="form-group"><label>Número de WhatsApp</label><input type="text" id="f-whatsapp" class="input" placeholder="Ej: 987654321"></div>
+                <div class="form-group"><label>Código de pago (de tu boleta o comprobante)</label><input type="text" id="f-codigo-pago" class="input" placeholder="Ej: OP-00012345"></div>
+                <button class="btn-primary-full" onclick="enviarSolicitudFormulario()">Enviar solicitud</button>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+<p class="login-note">Al solicitar acceso aceptas que el administrador revise tus datos para aprobar tu cuenta.</p>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="../../firebase/config/firebase-config.js"></script>
+<script src="../../js/ui/notify.js"></script>
+<script src="../../js/ui/waves.js"></script>
+<script src="../../js/ui/loader.js"></script>
+
+<script>
+setTimeout(elOcultarLoader, 500);
+elInsertWaves('login-waves-container', '55%');
+
+// ─────────── TABS DE SOLICITUD ───────────
+function cambiarTabSolicitud(tab) {
+    document.getElementById('tab-google').classList.toggle('hidden', tab !== 'google');
+    document.getElementById('tab-formulario').classList.toggle('hidden', tab !== 'formulario');
+    document.getElementById('tab-btn-google').classList.toggle('active', tab === 'google');
+    document.getElementById('tab-btn-formulario').classList.toggle('active', tab === 'formulario');
+}
+
+function mostrarCiudadOtra(prefijo) {
+    const select = document.getElementById(`${prefijo}-ciudad`);
+    const otra = document.getElementById(`${prefijo}-ciudad-otra`);
+    otra.classList.toggle('hidden', select.value !== '__otra__');
+}
+
+function obtenerCiudad(prefijo) {
+    const select = document.getElementById(`${prefijo}-ciudad`);
+    if (select.value === '__otra__') return document.getElementById(`${prefijo}-ciudad-otra`).value.trim();
+    return select.value;
+}
+
+// ─────────── LOGIN NORMAL (correo + contraseña asignada por el admin) ───────────
+async function intentarLogin() {
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-pass').value;
+    const btnEl = document.getElementById('btn-login');
+    const errorEl = document.getElementById('error-msg');
+    errorEl.textContent = '';
+
+    if (!email || !password) { errorEl.textContent = 'Completa correo y contraseña.'; return; }
+
+    btnEl.disabled = true;
+    btnEl.textContent = 'Verificando...';
+    try {
+        const cred = await firebase.auth().signInWithEmailAndPassword(email, password);
+        const snap = await firebase.database().ref(`usuarios/${cred.user.uid}`).once('value');
+        const perfil = snap.val();
+        if (!perfil) throw new Error('Perfil no encontrado.');
+        if (perfil.cuentaActiva === false) throw { code: 'cuenta-desactivada' };
+
+        if (perfil.rol === 'admin') window.location.href = '../../pages/admin/admin.html';
+        else window.location.href = '../../pages/usuario/usuario.html';
+    } catch (err) {
+        const mensajes = {
+            'auth/user-not-found': 'Correo o contraseña incorrectos.',
+            'auth/wrong-password': 'Correo o contraseña incorrectos.',
+            'auth/invalid-email': 'Correo electrónico no válido.',
+            'auth/too-many-requests': 'Demasiados intentos. Intenta más tarde.',
+            'cuenta-desactivada': 'Tu cuenta está desactivada. Contacta al administrador.'
+        };
+        errorEl.textContent = mensajes[err.code] || 'No se pudo iniciar sesión. Verifica tus datos.';
+        btnEl.disabled = false;
+        btnEl.textContent = 'Ingresar';
+    }
+}
+
+// ─────────── SOLICITUD VÍA GOOGLE (solo para verificar correo) ───────────
+let googleUidTemporal = null;
+let googleCorreoTemporal = null;
+
+async function continuarConGoogle() {
+    const btn = document.getElementById('btn-google-solicitud');
+    btn.disabled = true;
+    try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const cred = await firebase.auth().signInWithPopup(provider);
+
+        // Si esa cuenta de Google ya tiene un perfil activo, no tiene sentido pedir otra solicitud.
+        const snap = await firebase.database().ref(`usuarios/${cred.user.uid}`).once('value');
+        if (snap.exists()) {
+            elToast('Este correo ya tiene una cuenta. Usa el formulario de inicio de sesión de arriba.', 'info');
+            btn.disabled = false;
+            return;
+        }
+
+        googleUidTemporal = cred.user.uid;
+        googleCorreoTemporal = cred.user.email;
+        document.getElementById('google-correo-verificado').textContent = cred.user.email;
+        document.getElementById('google-paso-1').classList.add('hidden');
+        document.getElementById('google-paso-2').classList.remove('hidden');
+    } catch (err) {
+        if (err.code !== 'auth/popup-closed-by-user') {
+            elToast('No se pudo verificar tu cuenta de Google. Intenta de nuevo.', 'error');
+        }
+    }
+    btn.disabled = false;
+}
+
+async function enviarSolicitudGoogle() {
+    const edad = document.getElementById('g-edad').value.trim();
+    const sexo = document.getElementById('g-sexo').value;
+    const ciudad = obtenerCiudad('g');
+    const whatsapp = document.getElementById('g-whatsapp').value.trim();
+    const codigoPago = document.getElementById('g-codigo-pago').value.trim();
+
+    if (!edad || !sexo || !ciudad || !whatsapp) { elToast('Completa edad, sexo, ciudad y WhatsApp.', 'error'); return; }
+
+    try {
+        const ref = firebase.database().ref('solicitudes').push();
+        await ref.set({
+            nombre: (firebase.auth().currentUser.displayName || '').split(' ')[0] || '',
+            apellido: (firebase.auth().currentUser.displayName || '').split(' ').slice(1).join(' ') || '',
+            correo: googleCorreoTemporal,
+            uidGoogle: googleUidTemporal,
+            viaGoogle: true,
+            edad, sexo, ciudad, whatsapp, codigoPago,
+            estado: 'pendiente',
+            creadoEn: Date.now()
+        });
+        await firebase.auth().signOut();
+        elToast('Solicitud enviada. El administrador se pondrá en contacto por WhatsApp.', 'ok');
+        setTimeout(() => window.location.href = '../../index.html', 2500);
+    } catch (e) {
+        elToast('No se pudo enviar la solicitud. Intenta de nuevo.', 'error');
+    }
+}
+
+// ─────────── SOLICITUD VÍA FORMULARIO MANUAL ───────────
+async function enviarSolicitudFormulario() {
+    const nombre = document.getElementById('f-nombre').value.trim();
+    const apellido = document.getElementById('f-apellido').value.trim();
+    const correo = document.getElementById('f-correo').value.trim().toLowerCase();
+    const edad = document.getElementById('f-edad').value.trim();
+    const sexo = document.getElementById('f-sexo').value;
+    const ciudad = obtenerCiudad('f');
+    const whatsapp = document.getElementById('f-whatsapp').value.trim();
+    const codigoPago = document.getElementById('f-codigo-pago').value.trim();
+
+    if (!nombre || !apellido || !correo || !edad || !sexo || !ciudad || !whatsapp) {
+        elToast('Completa todos los campos obligatorios.', 'error');
+        return;
+    }
+
+    try {
+        const ref = firebase.database().ref('solicitudes').push();
+        await ref.set({
+            nombre, apellido, correo, viaGoogle: false,
+            edad, sexo, ciudad, whatsapp, codigoPago,
+            estado: 'pendiente',
+            creadoEn: Date.now()
+        });
+        elToast('Solicitud enviada. El administrador se pondrá en contacto por WhatsApp.', 'ok');
+        ['f-nombre','f-apellido','f-correo','f-edad','f-whatsapp','f-codigo-pago'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('f-sexo').value = '';
+        document.getElementById('f-ciudad').value = '';
+    } catch (e) {
+        elToast('No se pudo enviar la solicitud. Intenta de nuevo.', 'error');
+    }
+}
+
+// Si ya hay sesión activa (login normal previo), redirigir automáticamente
+firebase.auth().onAuthStateChanged(async (user) => {
+    if (user && !googleUidTemporal) {
+        const snap = await firebase.database().ref(`usuarios/${user.uid}`).once('value');
+        const perfil = snap.val();
+        if (!perfil || perfil.cuentaActiva === false) return;
+        if (perfil.rol === 'admin') window.location.href = '../../pages/admin/admin.html';
+        else window.location.href = '../../pages/usuario/usuario.html';
+    }
+});
+</script>
+
+</body>
+</html>

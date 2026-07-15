@@ -1,0 +1,350 @@
+/* ============================================================
+   ENTRE LÍNEAS v2 — css/variables.css
+   Token de diseño global. IMPORTAR en todos los demás CSS.
+   Estética: Editorial orgánica · Tonos tierra · Minimalista
+   Paleta pastel por módulo preservando identidad v1.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+/* ---------- RESET ---------- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+/* ============================================================
+   VARIABLES GLOBALES
+   ============================================================ */
+:root {
+
+    /* — Paleta base v1 conservada — */
+    --tierra-1:  #81aea8;
+    --tierra-2:  #6A9E99;
+    --tierra-3:  #92beb7;
+
+    /* — Capas de olas (estética "dunas"), degradado verde oscuro → claro — */
+    --wave-1: #33544f;
+    --wave-2: #466f69;
+    --wave-3: #5c8c85;
+    --wave-4: #82aba4;
+    --wave-5: #b6d2cb;
+    --wave-6: #e4ede9;
+    --crema:     #F4EFE6;
+    --crema-2:   #EBE5DA;
+    --crema-3:   #E2DBD0;
+    --error:     #C97A75;
+    --ok:        #8FA876;
+
+    /* — Paleta pastel por módulo — */
+    /* Entre Textos — Menta suave */
+    --textos-primary:   #81aea8;
+    --textos-light:     #d4ecea;
+    --textos-accent:    #4e9490;
+    --textos-bg:        #eef7f6;
+
+    /* Entre Números — Lavanda suave */
+    --numeros-primary:  #9b8ec4;
+    --numeros-light:    #e4dff5;
+    --numeros-accent:   #7565b0;
+    --numeros-bg:       #f3f1fb;
+
+    /* Entre Ideas — Durazno suave */
+    --ideas-primary:    #d49a7a;
+    --ideas-light:      #f5e0d3;
+    --ideas-accent:     #b87550;
+    --ideas-bg:         #fdf3ed;
+
+    /* Entre Tiempos — Azul pizarra suave */
+    --tiempos-primary:  #7a9abf;
+    --tiempos-light:    #d8e7f5;
+    --tiempos-accent:   #4d7aaa;
+    --tiempos-bg:       #eef4fb;
+
+    /* Entre Voces — Rosa palo suave */
+    --voces-primary:    #c48ba8;
+    --voces-light:      #f2dce9;
+    --voces-accent:     #a5607e;
+    --voces-bg:         #faf0f5;
+
+    /* — Neutros — */
+    --white:      #ffffff;
+    --gray-50:    #f9f9f7;
+    --gray-100:   #f0ede8;
+    --gray-200:   #e2ddd7;
+    --gray-300:   #c8c3bc;
+    --gray-500:   #8a8580;
+    --gray-700:   #4a4743;
+    --gray-900:   #1e1c1a;
+
+    /* — Tipografías — */
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-sans:  'DM Sans', system-ui, sans-serif;
+    --font-mono:  'DM Mono', 'Courier New', monospace;
+
+    /* — Espaciado — */
+    --r:    0.5rem;
+    --r-lg: 1rem;
+    --r-xl: 1.5rem;
+
+    /* — Sombras — */
+    --shadow-xs:  0 1px 3px rgba(0,0,0,0.06);
+    --shadow-sm:  0 2px 8px rgba(0,0,0,0.08);
+    --shadow-md:  0 4px 20px rgba(0,0,0,0.10);
+    --shadow-lg:  0 8px 40px rgba(0,0,0,0.12);
+
+    /* — Transiciones — */
+    --ease: 0.22s ease;
+    --ease-slow: 0.4s ease;
+
+    /* — Z-index — */
+    --z-nav:    1000;
+    --z-modal:  2000;
+    --z-toast:  3000;
+}
+
+/* ============================================================
+   MODO OSCURO — se activa con [data-theme="dark"] en <html>
+   Reutiliza los mismos nombres de variable, así que todos los
+   componentes existentes se adaptan automáticamente.
+   ============================================================ */
+:root[data-theme="dark"] {
+    --crema:      #34312b;
+    --crema-2:    #3b3830;
+    --crema-3:    #444038;
+    --white:      #403c35;
+    --gray-50:    #3a3730;
+    --gray-100:   #46423a;
+    --gray-200:   #534e44;
+    --gray-300:   #6f695d;
+    --gray-500:   #c7c0b2;
+    --gray-700:   #e9e4da;
+    --gray-900:   #f6f2ea;
+
+    --textos-bg:  #333d3a;
+    --numeros-bg: #363341;
+    --ideas-bg:   #3c352e;
+    --tiempos-bg: #313640;
+    --voces-bg:   #3a323a;
+
+    --wave-1: #2a413d;
+    --wave-2: #395450;
+    --wave-3: #4d6d67;
+    --wave-4: #6e8f88;
+    --wave-5: #93b0a9;
+    --wave-6: #34312b;
+}
+
+/* ============================================================
+   BASE GLOBAL
+   ============================================================ */
+body {
+    background-color: var(--crema);
+    color: var(--gray-700);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+a  { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: var(--font-sans); }
+
+/* ============================================================
+   UTILIDADES COMUNES
+   ============================================================ */
+
+/* Texto */
+.serif    { font-family: var(--font-serif); }
+.mono     { font-family: var(--font-mono); }
+.u-upper  { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.72rem; font-weight: 600; }
+
+/* Botones base */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    padding: 0.65rem 1.5rem;
+    border: none; border-radius: 6px;
+    font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: background var(--ease), transform var(--ease), box-shadow var(--ease);
+    white-space: nowrap;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.btn:active { transform: translateY(0); }
+
+.btn-primary {
+    background: var(--tierra-2);
+    color: #fff;
+}
+.btn-primary:hover { background: var(--tierra-1); }
+
+.btn-ghost {
+    background: transparent;
+    border: 1.5px solid var(--tierra-2);
+    color: var(--tierra-2);
+}
+.btn-ghost:hover { background: var(--textos-light); }
+
+.btn-danger {
+    background: var(--error);
+    color: #fff;
+}
+
+.btn-sm { padding: 0.4rem 1rem; font-size: 0.78rem; }
+.btn-lg { padding: 0.85rem 2rem; font-size: 0.95rem; }
+
+/* Cards */
+.card {
+    background: var(--white);
+    border-radius: var(--r-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--gray-100);
+}
+
+/* Inputs */
+.input {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--r);
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    background: var(--white);
+    color: var(--gray-700);
+    transition: border-color var(--ease);
+    outline: none;
+}
+.input:focus { border-color: var(--tierra-2); }
+.input::placeholder { color: var(--gray-300); }
+
+/* Badge */
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+.badge-textos   { background: var(--textos-light);  color: var(--textos-accent);  }
+.badge-numeros  { background: var(--numeros-light); color: var(--numeros-accent); }
+.badge-ideas    { background: var(--ideas-light);   color: var(--ideas-accent);   }
+.badge-tiempos  { background: var(--tiempos-light); color: var(--tiempos-accent); }
+.badge-voces    { background: var(--voces-light);   color: var(--voces-accent);   }
+.badge-ok       { background: #e8f5e0; color: var(--ok); }
+.badge-error    { background: #fde8e7; color: var(--error); }
+
+/* Progress bar */
+.progress-bar {
+    height: 6px;
+    background: var(--gray-100);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: var(--tierra-2);
+    transition: width 0.6s ease;
+}
+
+/* Section label */
+.section-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--tierra-2);
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+}
+
+/* Hidden */
+.hidden { display: none !important; }
+
+/* ============================================================
+   PANTALLA DE CARGA
+   ============================================================ */
+#el-loader {
+    position: fixed; inset: 0; z-index: 99999;
+    background: var(--wave-1);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    transition: opacity .5s ease, visibility .5s ease;
+}
+#el-loader.el-loader-out { opacity: 0; visibility: hidden; pointer-events: none; }
+.el-loader-waves { position: absolute; inset: 0; opacity: 0.9; }
+.el-loader-waves svg { width: 100%; height: 100%; }
+.el-loader-center { position: relative; z-index: 2; text-align: center; }
+.el-loader-logo {
+    font-family: var(--font-serif); font-size: 2rem; color: #fff;
+    margin-bottom: 1.5rem; letter-spacing: 0.01em;
+}
+.el-loader-logo em { font-style: italic; color: var(--tierra-3); }
+.el-loader-bar {
+    width: 160px; height: 3px; border-radius: 3px;
+    background: rgba(255,255,255,0.2); overflow: hidden; margin: 0 auto;
+}
+.el-loader-bar-fill {
+    width: 40%; height: 100%; border-radius: 3px;
+    background: var(--tierra-3);
+    animation: el-loader-slide 1.1s ease-in-out infinite;
+}
+@keyframes el-loader-slide {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(350%); }
+}
+.el-loader-tip {
+    margin-top: 0.9rem; font-size: 0.72rem; color: rgba(255,255,255,0.65);
+    text-transform: uppercase; letter-spacing: 0.1em;
+}
+
+.el-waves-wrap {
+    position: absolute; inset: 0; z-index: 0;
+    pointer-events: none; overflow: hidden;
+}
+.el-waves-wrap svg { transition: fill var(--ease, .2s ease); }
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    background: var(--gray-900);
+    color: var(--white);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--r);
+    font-size: 0.85rem;
+    z-index: var(--z-toast);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.ok    { background: var(--ok); }
+.toast.error { background: var(--error); }
+
+/* Fondo decorativo libros (heredado v1) */
+.bg-deco {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0; overflow: hidden;
+}
+.bg-book {
+    position: absolute;
+    opacity: 0.06;
+    fill: var(--tierra-1);
+}
+.bg-book.b1 { width: 340px; top: -60px; right: -80px; transform: rotate(18deg); }
+.bg-book.b2 { width: 260px; top: 38%;  left: -70px; transform: rotate(-12deg); }
+.bg-book.b3 { width: 200px; bottom: 15%; right: 5%;  transform: rotate(6deg); }
+.bg-book.b4 { width: 300px; top: 65%;  left: 30%;   transform: rotate(-20deg); opacity: 0.03; }
+.bg-book.b5 { width: 180px; top: 22%;  right: 22%;  transform: rotate(30deg);  opacity: 0.03; }
+
+/* Scrollbar sutil */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 10px; }

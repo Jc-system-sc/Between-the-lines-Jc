@@ -1,0 +1,275 @@
+/* ============================================================
+   ENTRE LÍNEAS v2 — css/components/games.css
+   Estilos para todos los tipos de misiones (actividades).
+   ============================================================ */
+
+@import url('../variables.css');
+
+/* ============================================================
+   CONTENEDOR MISIÓN
+   ============================================================ */
+.game-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1500;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1rem;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+}
+.game-overlay.open { opacity: 1; pointer-events: all; }
+
+.game-modal {
+    background: var(--white);
+    border-radius: 20px;
+    width: 100%; max-width: 760px;
+    max-height: 92vh; overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+    display: flex; flex-direction: column;
+    transform: scale(0.97) translateY(10px);
+    transition: transform 0.3s;
+}
+.game-overlay.open .game-modal { transform: scale(1) translateY(0); }
+
+.game-header {
+    padding: 1.5rem 2rem 1.25rem;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex; justify-content: space-between; align-items: flex-start;
+}
+.game-title-area {}
+.game-module-badge { margin-bottom: 0.4rem; }
+.game-title {
+    font-family: var(--font-serif);
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--gray-900);
+}
+.game-desc { font-size: 0.85rem; color: var(--gray-500); margin-top: 0.3rem; }
+
+.game-close {
+    width: 34px; height: 34px; border-radius: 50%;
+    border: none; background: var(--gray-100);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-left: 1rem;
+    transition: background var(--ease);
+}
+.game-close:hover { background: var(--gray-200); }
+.game-close svg { width: 16px; height: 16px; fill: var(--gray-500); }
+
+/* Barra de progreso misión */
+.game-progress {
+    padding: 0.85rem 2rem;
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-100);
+    display: flex; align-items: center; gap: 1rem;
+}
+.game-progress-label { font-size: 0.75rem; color: var(--gray-500); white-space: nowrap; }
+.game-progress-bar   { flex: 1; }
+.game-xp-badge {
+    font-size: 0.72rem; font-weight: 700;
+    color: var(--tierra-2); white-space: nowrap;
+    text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+.game-body { padding: 2rem; flex: 1; }
+.game-footer {
+    padding: 1.25rem 2rem;
+    border-top: 1px solid var(--gray-100);
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+.quiz-pregunta-num {
+    font-size: 0.72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--tierra-2); margin-bottom: 1rem;
+}
+.quiz-pregunta-texto {
+    font-family: var(--font-serif);
+    font-size: 1.25rem; font-weight: 600;
+    color: var(--gray-900); line-height: 1.5;
+    margin-bottom: 1.75rem;
+}
+.quiz-opciones { display: flex; flex-direction: column; gap: 0.75rem; }
+.quiz-opcion {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.9rem 1.25rem;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color var(--ease), background var(--ease);
+    font-size: 0.92rem; color: var(--gray-700);
+    background: transparent;
+    text-align: left; width: 100%;
+    font-family: var(--font-sans);
+}
+.quiz-opcion:hover { border-color: var(--tierra-2); background: var(--textos-bg); }
+.quiz-opcion.seleccionada { border-color: var(--tierra-2); background: var(--textos-bg); }
+.quiz-opcion.correcta     { border-color: var(--ok); background: #e8f5e0; color: var(--ok); }
+.quiz-opcion.incorrecta   { border-color: var(--error); background: #fde8e7; color: var(--error); }
+.quiz-opcion-letra {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--gray-100); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 700; color: var(--gray-500);
+    transition: background var(--ease), color var(--ease);
+}
+.quiz-opcion.seleccionada .quiz-opcion-letra { background: var(--tierra-2); color: white; }
+.quiz-opcion.correcta     .quiz-opcion-letra { background: var(--ok); color: white; }
+.quiz-opcion.incorrecta   .quiz-opcion-letra { background: var(--error); color: white; }
+
+.quiz-feedback {
+    margin-top: 1.5rem; padding: 1rem 1.25rem;
+    border-radius: 10px; font-size: 0.88rem;
+    display: none;
+}
+.quiz-feedback.show  { display: block; }
+.quiz-feedback.ok    { background: #e8f5e0; color: var(--ok); border: 1px solid #c3e6aa; }
+.quiz-feedback.error { background: #fde8e7; color: var(--error); border: 1px solid #f5c0be; }
+
+/* ============================================================
+   COMPLETAR TEXTO
+   ============================================================ */
+.completar-parrafo {
+    font-size: 1rem; line-height: 2.2;
+    color: var(--gray-700);
+    font-family: var(--font-serif);
+}
+.completar-hueco {
+    display: inline-block;
+    min-width: 100px;
+    border: none; border-bottom: 2px solid var(--tierra-2);
+    padding: 0 0.5rem;
+    font-family: var(--font-serif); font-size: 1rem;
+    color: var(--tierra-2); font-weight: 600;
+    background: transparent; outline: none;
+    text-align: center;
+    transition: border-color var(--ease);
+}
+.completar-hueco:focus { border-bottom-color: var(--tierra-1); }
+.completar-hueco.correcto  { border-bottom-color: var(--ok); color: var(--ok); }
+.completar-hueco.incorrecto { border-bottom-color: var(--error); color: var(--error); }
+
+/* ============================================================
+   RELACIONAR CONCEPTOS
+   ============================================================ */
+.relacionar-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+    align-items: start;
+}
+.relacionar-col-title {
+    font-size: 0.72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--gray-500); margin-bottom: 1rem;
+}
+.relacionar-item {
+    padding: 0.85rem 1.1rem;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 0.88rem; color: var(--gray-700);
+    cursor: pointer; margin-bottom: 0.6rem;
+    transition: all var(--ease);
+    user-select: none;
+}
+.relacionar-item:hover    { border-color: var(--tierra-2); background: var(--textos-bg); }
+.relacionar-item.selected { border-color: var(--tierra-2); background: var(--textos-bg); }
+.relacionar-item.matched  { border-color: var(--ok); background: #e8f5e0; color: var(--ok); pointer-events: none; }
+.relacionar-item.error    { border-color: var(--error); background: #fde8e7; animation: shake 0.3s; }
+
+@keyframes shake {
+    0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)}
+}
+
+/* ============================================================
+   TARJETAS DE MEMORIA
+   ============================================================ */
+.memoria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
+}
+.memoria-card {
+    aspect-ratio: 3/4;
+    perspective: 600px;
+    cursor: pointer;
+}
+.memoria-card-inner {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.4s ease;
+    border-radius: 10px;
+}
+.memoria-card.volteada .memoria-card-inner { transform: rotateY(180deg); }
+.memoria-card.emparejada .memoria-card-inner { transform: rotateY(180deg); }
+.memoria-card.emparejada .memoria-cara-frente { border-color: var(--ok); background: #e8f5e0; }
+
+.memoria-cara-dorso,
+.memoria-cara-frente {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    border: 1.5px solid var(--gray-200);
+    display: flex; align-items: center; justify-content: center;
+    padding: 0.75rem;
+    font-size: 0.82rem; text-align: center;
+    line-height: 1.4;
+}
+.memoria-cara-dorso {
+    background: var(--textos-bg);
+    color: var(--tierra-2);
+}
+.memoria-cara-dorso svg { width: 28px; height: 28px; fill: var(--tierra-2); opacity: 0.5; }
+.memoria-cara-frente {
+    background: var(--white);
+    transform: rotateY(180deg);
+    color: var(--gray-700); font-weight: 500;
+}
+
+/* ============================================================
+   RESULTADO FINAL
+   ============================================================ */
+.resultado-panel {
+    text-align: center; padding: 2rem 1rem;
+}
+.resultado-icon {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: var(--textos-bg);
+    margin: 0 auto 1.5rem;
+    display: flex; align-items: center; justify-content: center;
+}
+.resultado-icon svg { width: 44px; height: 44px; fill: var(--tierra-2); }
+.resultado-titulo {
+    font-family: var(--font-serif);
+    font-size: 1.8rem; font-weight: 700;
+    color: var(--gray-900); margin-bottom: 0.5rem;
+}
+.resultado-sub { font-size: 0.92rem; color: var(--gray-500); margin-bottom: 2rem; }
+.resultado-stats {
+    display: flex; justify-content: center; gap: 2.5rem;
+    margin-bottom: 2rem;
+}
+.resultado-stat {}
+.resultado-stat-num {
+    font-family: var(--font-serif); font-size: 2.2rem; font-weight: 700;
+    color: var(--tierra-2); line-height: 1;
+}
+.resultado-stat-label {
+    font-size: 0.72rem; color: var(--gray-500);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-top: 0.3rem;
+}
+
+/* ============================================================
+   RESPONSIVE GAMES
+   ============================================================ */
+@media (max-width: 640px) {
+    .game-modal  { border-radius: 16px 16px 0 0; max-height: 96vh; margin-top: auto; }
+    .game-body   { padding: 1.25rem; }
+    .game-header { padding: 1.25rem; }
+    .game-footer { padding: 1rem 1.25rem; }
+    .relacionar-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .quiz-pregunta-texto { font-size: 1.05rem; }
+    .memoria-grid { grid-template-columns: repeat(3, 1fr); }
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entre Líneas — Plataforma de Lectura Gamificada</title>
+    <link rel="stylesheet" href="css/landing/landing.css">
+</head>
+<body>
+
+<div id="el-loader">
+    <div class="el-loader-waves">
+        <svg viewBox="0 0 1440 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="1440" height="500" fill="var(--wave-1)"/>
+            <path fill="var(--wave-3)" d="M-80,230 C160,300 380,160 620,225 C860,290 1080,150 1320,215 C1400,238 1460,225 1520,235 L1520,640 L-80,640 Z"/>
+            <path fill="var(--wave-5)" d="M-80,440 C200,500 420,395 680,435 C920,472 1140,405 1380,440 C1430,447 1470,440 1520,445 L1520,640 L-80,640 Z"/>
+        </svg>
+    </div>
+    <div class="el-loader-center">
+        <div class="el-loader-logo">Entre <em>Líneas</em></div>
+        <div class="el-loader-bar"><div class="el-loader-bar-fill"></div></div>
+        <div class="el-loader-tip">Cargando...</div>
+    </div>
+</div>
+
+<div data-include="partials/navbar.html"></div>
+<div data-include="partials/hero.html"></div>
+<div data-include="partials/proyecto.html"></div>
+<div data-include="partials/objetivos.html"></div>
+<div data-include="partials/equipo.html"></div>
+<div data-include="partials/contacto.html"></div>
+<div data-include="partials/footer.html"></div>
+
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT LANDING
+════════════════════════════════════════════════════════ -->
+<script src="js/ui/notify.js"></script>
+<script src="js/ui/theme.js"></script>
+<script src="js/ui/waves.js"></script>
+<script src="js/ui/includes.js"></script>
+<script src="js/ui/loader.js"></script>
+<script>
+elLoadIncludes().then(() => {
+    document.querySelector('.el-theme-toggle-icon').innerHTML = elThemeIconInicial();
+    elInsertWaves('hero-waves-container', '68%', true);
+
+    // ---------- MENÚ MÓVIL ----------
+    window.toggleMenu = function () { document.getElementById('nav-links').classList.toggle('open'); };
+    window.cerrarMenu = function () { document.getElementById('nav-links').classList.remove('open'); };
+
+    // ---------- NAVBAR SCROLL ----------
+    window.addEventListener('scroll', () => {
+        const nav = document.getElementById('navbar');
+        nav.style.boxShadow = window.scrollY > 20 ? '0 2px 20px rgba(0,0,0,0.08)' : 'none';
+    });
+
+    // ---------- EFECTO TYPING DEL TÍTULO ----------
+    window.elTypingEffect = function () {
+        const palabra1 = 'Entre', palabra2 = 'Líneas';
+        const el1 = document.getElementById('typing-1');
+        const el2 = document.getElementById('typing-2');
+        const cursor = document.getElementById('typing-cursor');
+        let i = 0, j = 0;
+        function escribir1() {
+            if (i <= palabra1.length) { el1.textContent = palabra1.slice(0, i); i++; setTimeout(escribir1, 70); }
+            else setTimeout(escribir2, 150);
+        }
+        function escribir2() {
+            if (j <= palabra2.length) { el2.textContent = palabra2.slice(0, j); j++; setTimeout(escribir2, 70); }
+            else setTimeout(() => cursor.style.display = 'none', 1200);
+        }
+        escribir1();
+    };
+    elTypingEffect();
+    setTimeout(elOcultarLoader, 400);
+
+    // ---------- CONTACTO → WHATSAPP ----------
+  
+    window.WHATSAPP_CONTACTO = "51978159209";
+
+    window.enviarContacto = function () {
+        const nombre  = document.getElementById('contacto-nombre').value.trim();
+        const correo  = document.getElementById('contacto-correo').value.trim();
+        const mensaje = document.getElementById('contacto-mensaje').value.trim();
+
+        if (!nombre || !correo) {
+            elToast('Por favor completa al menos tu nombre y correo.', 'error');
+            return;
+        }
+
+        const texto =
+            `Hola, quiero solicitar acceso a Entre Líneas.%0A` +
+            `Nombre: ${encodeURIComponent(nombre)}%0A` +
+            `Correo: ${encodeURIComponent(correo)}` +
+            (mensaje ? `%0AMensaje: ${encodeURIComponent(mensaje)}` : '');
+
+        window.open(`https://wa.me/${window.WHATSAPP_CONTACTO}?text=${texto}`, '_blank');
+    };
+});
+</script>
+
+</body>
+</html>
